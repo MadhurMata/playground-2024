@@ -1,0 +1,48 @@
+.button
+  display: flex
+  justify-content: space-between
+  align-items: center
+  width: 168px
+  height: 50px
+  padding: 16px
+  background-color: $grey1
+  border-radius: 5px
+  cursor: pointer
+
+  .icon
+    display: inline-block
+    width: 20px
+    height: 17.6px
+    background-size: cover
+
+  .icon-arrow
+    background-image: url(/assets/images/arrow-white.png)
+
+  .icon-filter
+    background-image: url(/assets/images/filter.png)
+
+  p
+    color: $white
+
+  &:hover
+    background-color: $white
+    border: 2px solid $grey1
+    border-radius: 5px
+
+    .icon-arrow
+      background-image: url(/assets/images/arrow-grey.svg)
+
+    .icon-filter
+      background-image: url(/assets/images/filter-dark.png)
+
+    p
+      color: $grey1
+
+  @media screen and (max-width: 730px)
+    justify-content: center
+    width: 50px
+    height: 32px
+    padding: 0
+
+    p
+      display: none

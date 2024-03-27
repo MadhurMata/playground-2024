@@ -1,0 +1,29 @@
+// Truncate text
+@mixin truncateText($width)
+  width: $width
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+  margin: 0
+  background: white
+
+// SearchBar
+@mixin searchbar($width)
+  width: $width
+  height: 50px
+  outline: none
+  border: 2px solid $grey1
+  border-top-left-radius: 5px
+  border-bottom-left-radius: 5px
+  border-right: none
+  color: $grey1
+  font-size: 18px
+  line-height: 24px
+  font-weight: 700
+  padding-left: 10px
+
+  @media screen and (max-width: 730px)
+    width: 232px
+    height: 32px
+    font-size: 14px
+    line-height: 18px

@@ -1,0 +1,48 @@
+// Variables
+$checkbox-width: 18px
+
+// Checkboxes
+input[type="checkbox"]
+  position: absolute
+  left: -9999px
+
+  & + label
+    position: relative
+    display: inline-block
+    padding: 6px 10px 6px ($checkbox-width + 10)
+    margin-right: 32px
+    cursor: pointer
+
+    p
+      font-weight: 700
+
+    span
+      font-weight: 700
+
+    // Default State
+    &:before
+      display: block
+      content: ""
+      position: absolute
+      left: 0
+      top: 50%
+      margin: (-$checkbox-width/2) 0 0
+      width: $checkbox-width
+      height: $checkbox-width
+      background-image: url(/assets/images/checkbox.png)
+      background-repeat: no-repeat
+      background-color: $white
+      border-radius: 2px
+      background-size: 72px auto
+      -webkit-background-size: 72px auto
+      -moz-background-size: 72px auto
+
+  // Checked State
+  &:checked + label
+    &:before
+      background-position: (-$checkbox-width) 0
+
+// Extra layout styling
+.form-checkbox
+  position: relative
+  display: block
