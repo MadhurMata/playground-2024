@@ -6,13 +6,9 @@ import { Hero } from "src/types/heroe";
  */
 export const mapHeroesData = (heroesList: Hero[]): Hero[] => {
   return heroesList.map((hero) => {
-    const { name, id, description, thumbnail, modified } = hero;
     return {
-      id,
-      name,
-      description,
-      thumbnail,
-      modified: dateFormater(modified)
+      ...hero,
+      modified: dateFormater(hero.modified)
     };
   });
 };
@@ -22,14 +18,9 @@ export const mapHeroesData = (heroesList: Hero[]): Hero[] => {
  * @param {object} hero Hero data.
  */
 export const mapHeroData = (hero: Hero[]): Hero => {
-  const { name, description, thumbnail, events, modified } = hero[0];
-
   return {
-    name,
-    description,
-    thumbnail,
-    events,
-    modified: dateFormater(modified)
+    ...hero[0],
+    modified: dateFormater(hero[0].modified)
   };
 };
 
@@ -46,13 +37,13 @@ export const dateFormater = (date: number) => {
  * @param {array} filteredData Heroes list.
  * @param {string} selectValue Select value.
  */
-export const dateFilter = (filteredData: Hero[], selectValue: string): Hero[] => {
+export const dateFilter = (filteredData: Hero[] | undefined, selectValue: string): Hero[] | undefined => {
   switch (selectValue) {
     case '1':
-      filteredData = filteredData.filter((item) => item.modified < 2000);
+      filteredData = filteredData?.filter((item) => item.modified < 2000);
       break;
     case '2':
-      filteredData = filteredData.filter((item) => item.modified >= 2000);
+      filteredData = filteredData?.filter((item) => item.modified >= 2000);
       break;
     default:
       filteredData;

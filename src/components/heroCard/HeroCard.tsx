@@ -17,7 +17,7 @@ const HeroCard = ({ hero }: { hero: Hero }): JSX.Element => {
       />
       <div className="card-text-container">
         <div className="info-container">
-          <h5 className="truncate">{name}</h5>
+          <span className="truncate title">{name}</span>
           <p className="truncate-multipleLine">
             {description !== '' ? description : '(No description available)'}
           </p>

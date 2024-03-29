@@ -1,58 +1,76 @@
 import { useEffect, useState } from 'react';
 
-import useFetch  from 'src/hooks/useFetch';
-import { TreesContext } from 'src/hooks/useTreesContext';
-import { mapHeroesData } from 'src/common/utils/utils';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInView } from 'react-intersection-observer';
 
-import Layout from 'src/components/layout/Layout';
-import RegularList from 'src/components/regularList/RegularList';
-import HeroCard from 'src/components/heroCard/HeroCard';
-import Filters from 'src/components/filters/Filters';
-import Loader from 'src/components/loader/Loader';
-import { Hero } from 'src/types/heroe';
 
-export interface ContextProps {
-  items: Hero[] | undefined;
-  itemsTemp: Hero[] | undefined;
-  setItems: (filteredData: Hero[]) => void;
+import './home.css';
+
+interface Todo {
+  id: string;
+  title: string;
+}
+
+interface TodoCardProps extends React.HTMLAttributes<HTMLParagraphElement> {
+  todo: Todo;
+  innerRef?: React.Ref<HTMLParagraphElement>
 }
 
 const Home = (): JSX.Element => {
-  const { isLoading, data, error } = useFetch('/characters');
-  const [items, setItems] = useState<Hero[]>();
-  const [itemsTemp, setItemsTemp] = useState<Hero[]>();
+  const { ref, inView } = useInView();
+
+
+  const fetchTodos = async ({pageParam}: {pageParam: number}) => {
+    const res = await fetch(`https://jsonplaceholder.typicode.com/todos?_page=${pageParam}`);
+    return res.json();
+  }
+
+  const {
+    data, status, error, fetchNextPage, isFetchingNextPage, hasNextPage
+  } = useInfiniteQuery({
+    queryKey: ['todos'],
+    queryFn: fetchTodos,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      console.log(lastPage, allPages);
+      const nextPage = lastPage.length ? allPages.length + 1 : undefined;
+      return nextPage;
+    },
+  });
+
+  
+  const todos = data?.pages.map((todos: Todo[]) => todos).flat()
 
   useEffect(() => {
-    if (data) {
-      setItems(mapHeroesData(data));
-      setItemsTemp(mapHeroesData(data));
-    }
-  }, [data]);
+if(inView && hasNextPage) {
+  fetchNextPage();
+}  
+  }, [inView, hasNextPage, fetchNextPage])
+  
 
+  if(status === 'pending') <p>Loading...</p>
+  if(status === 'error') <p>Error: {error.message}</p>
+  
   return (
-    <Layout>
-      <TreesContext.Provider value={{ items, itemsTemp, setItems }}>
-        <Filters />
-        {isLoading ? (
-          <Loader></Loader>
-        ) : error ? (
-          <>
-            <h5>Error loading data!...</h5>
-          </>
+    <div className='home'>
+     <h1>App</h1>
+     {todos?.map((todo, i) => todos.length == i + 1 ? (
+        <TodoCard key={todo.id} todo={todo} innerRef={ref}/>
         ) : (
-          items && (
-            <RegularList
-              items={items}
-              resourceName="hero"
-              emptyItemsMessage={`Sorry we couldn't find any hero`}
-              styles="list-grid"
-              itemComponent={HeroCard as React.ComponentType}
-            />
-          )
-        )}
-      </TreesContext.Provider>
-    </Layout>
+          <TodoCard key={todo.id} todo={todo}/>
+        )
+      )}
+     {isFetchingNextPage &&
+      <p>Loading more todos...</p>
+
+        // <button ref={ref} disabled={!hasNextPage} onClick={() => fetchNextPage() }>Load more...</button>
+     }
+     
+    </div>
   );
 };
+
+const TodoCard = ({ todo, innerRef, ...props }: TodoCardProps): JSX.Element => <p className="todo-card" ref={innerRef} {...props} >{todo.title}</p>;
+
 
 export default Home;

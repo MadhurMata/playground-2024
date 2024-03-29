@@ -10,6 +10,7 @@ const Searchbar = ({ onHandleChange, searchValue }: SearchbarProps): JSX.Element
     <>
       <form className="searchbar-container" action="/" method="get">
         <input
+          name='searchbar'
           className="searchbar"
           type="text"
           onChange={(e) => onHandleChange(e.target.value)}

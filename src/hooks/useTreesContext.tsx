@@ -1,5 +1,5 @@
 import { useContext, createContext } from 'react';
-import { ContextProps } from 'src/pages/home/Home';
+import { ContextProps } from 'src/pages/home/Home heroes';
 
 export const TreesContext = createContext<ContextProps | undefined>(undefined);
 

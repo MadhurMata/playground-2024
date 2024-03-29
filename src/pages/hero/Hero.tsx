@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import  useFetch  from 'src/hooks/useFetch';
 import { mapHeroData } from 'src/common/utils/utils';
 
-import Layout from 'src/components/layout/Layout';
 import RegularList from 'src/components/regularList/RegularList';
 import EventCard from 'src/components/eventCard/EventCard';
 import ImageContainer from 'src/components/imageContainer/ImageContainer';
@@ -25,7 +24,7 @@ const Heroe = (): JSX.Element => {
   if (!hero) return <></>;
 
   return (
-    <Layout>
+    <div className='wrapper'>
       {isLoading ? (
         <Loader></Loader>
       ) : error ? (
@@ -34,7 +33,7 @@ const Heroe = (): JSX.Element => {
         </>
       ) : (
         hero && (
-          <>
+          <div className='wrapper'>
             <section className="hero-detail-top">
               <ImageContainer
                 url={`${hero.thumbnail.path}.${hero.thumbnail.extension}`}
@@ -60,10 +59,10 @@ const Heroe = (): JSX.Element => {
                 </>
               ) : null}
             </section>
-          </>
+          </div>
         )
       )}
-    </Layout>
+    </div>
   );
 };
 

@@ -1,0 +1,11 @@
+.home {
+    text-align: center;
+}
+
+.todo-card {
+    background-color: blueviolet;
+    margin: 1rem;
+    padding: 1rem;
+    font-size: 2rem;
+    color: white;
+}

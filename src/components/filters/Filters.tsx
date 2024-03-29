@@ -30,6 +30,7 @@ const Filters = () => {
   };
 
   const toggleCheckboxState = () => {
+    console.log('object');
     setCheckbox(!checkbox);
   };
 
